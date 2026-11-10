@@ -1,5 +1,7 @@
 # PULSE
 
+![PULSE: the line of light above a dhol player, and the title](assets/social-preview.jpg)
+
 A 56-second wordless film, drawn entirely in code: no image model, no video model, no 3D.
 
 A hospital monitor goes flat. The last blip does not disappear: it runs out of the window as one unbroken line of
