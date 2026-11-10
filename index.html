@@ -1,0 +1,29 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>PULSE</title>
+<style>
+html,body{margin:0;height:100%;background:#03040a;overflow:hidden;font-family:system-ui,sans-serif}
+#stage{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);max-height:100vh;max-width:100vw}
+#ui{position:fixed;left:0;right:0;bottom:0;padding:8px 14px;display:flex;gap:10px;align-items:center;background:rgba(0,0,0,.55);color:#fff;font-size:13px}
+#ui input{flex:1}#ui button{font-size:14px;padding:4px 14px}
+body.render #ui{display:none}body.render #stage{height:auto!important}body.render #stage{position:static;transform:none;max-height:none;max-width:none}
+</style></head><body>
+<canvas id="stage" width="1080" height="1920"></canvas>
+<div id="ui"><button id="pb">Play</button><input id="sk" type="range" min="0" max="56" step="0.01" value="0"><span id="tm">0.0</span><a id="fm" style="color:#9cf" href="#"></a></div>
+<audio id="au" src="assets/audio/score.mp3" preload="auto"></audio>
+<script src="src/core.js"></script>
+<script src="src/places.js"></script>
+<script src="src/main.js"></script>
+<script>
+'use strict';
+const cv=document.getElementById('stage');cv.height=H;cv.style.aspectRatio=SQ?'1/1':'9/16';cv.style.height=SQ?'min(100vh,100vw)':'100vh';const CX=cv.getContext('2d');
+const fm=document.getElementById('fm');fm.textContent=SQ?'9:16':'1:1';fm.href=SQ?'index.html':'index.html?ar=1x1';
+window.renderAt=t=>drawFrame(t,CX);window.TOTAL=TOTAL;window.EVENTS={T,LAYERS,BEAD_ON,BEAD_OFF};
+const q=new URLSearchParams(location.search);
+if(q.has('render')){document.body.classList.add('render');window.renderAt(0);window.ready=true;}
+else{const au=document.getElementById('au'),pb=document.getElementById('pb'),sk=document.getElementById('sk'),tm=document.getElementById('tm');let playing=false,t=+(q.get('t')||0),last=0;
+  const show=()=>{window.renderAt(t);sk.value=t;tm.textContent=t.toFixed(1)+' s';};
+  const tick=now=>{if(!playing)return;if(!au.paused&&au.readyState>2)t=au.currentTime;else t+=(now-last)/1000;last=now;if(t>=TOTAL){t=0;playing=false;au.pause();pb.textContent='Play';}show();requestAnimationFrame(tick);};
+  const toggle=()=>{playing=!playing;pb.textContent=playing?'Pause':'Play';if(playing){au.currentTime=t;au.play().catch(()=>{});last=performance.now();requestAnimationFrame(tick);}else au.pause();};
+  pb.onclick=toggle;cv.onclick=toggle;sk.oninput=()=>{t=+sk.value;au.currentTime=t;show();};
+  document.onkeydown=e=>{if(e.code==='Space'){e.preventDefault();toggle();}};show();window.ready=true;}
+</script></body></html>

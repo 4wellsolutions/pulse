@@ -1,0 +1,14 @@
+{
+  "name": "pulse",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "stills": "node tools/render.mjs stills",
+    "render": "node tools/render.mjs film 9x16",
+    "render:square": "node tools/render.mjs film 1x1",
+    "audio": "python tools/make-audio.py"
+  },
+  "dependencies": {
+    "playwright": "^1.48.0"
+  }
+}

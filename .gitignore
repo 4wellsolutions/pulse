@@ -1,0 +1,8 @@
+node_modules/
+frames/
+preview/
+*.log
+# built by tools/make-audio.py; score.mp3 is the committed copy
+assets/audio/score.wav
+# third-party recordings are not redistributed here: see README, 'Recorded sounds'
+assets/sfx/
